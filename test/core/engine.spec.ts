@@ -12,6 +12,10 @@ describe("Engine unit testing", () => {
         it("should have started", () => {
             expect(Engine.started).to.be.true;
         });
+        it("should set the source of the engine context (console, browser, electron)", () => {
+            expect(Engine.client).to.equal(0); // 0 as it is the index in the Client enum
+            // NOTE: Should I use .toString() on it?
+        });
         it("should have height set to 0", () => {
             expect(Engine.height).to.be.equal(0);
         });
@@ -21,6 +25,9 @@ describe("Engine unit testing", () => {
         it("should shutdown and close on shutdown", () => {
             Engine.shutdown();
             expect(Engine.instance).to.be.undefined;
+        });
+        after(() => {
+            Engine.stop();
         });
     });
     describe("Engine start and running", () => {
@@ -58,11 +65,13 @@ describe("Engine unit testing", () => {
             expect(Engine.running).to.be.false;
             Engine.play();
             expect(Engine.running).to.be.true;
-            let time = Engine.now;
             setTimeout(() => {}, 5000);
-            expect(Engine.now).not.to.equal(time); // Should be a new frame
+            expect(Engine.now).not.to.equal(Date.now()); // Should be a new frame
             setTimeout(() => {}, 5000);
-            expect(Engine.now).not.to.equal(time); // Should be a new frame
+            expect(Engine.now).not.to.equal(Date.now()); // Should be a new frame
+        });
+        after(() => {
+            Engine.stop();
         });
     });
 });
