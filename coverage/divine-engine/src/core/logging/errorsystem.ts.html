@@ -20,31 +20,31 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">80% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>8/10</span>
+        <span class='fraction'>0/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/8</span>
+        <span class='fraction'>0/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/3</span>
+        <span class='fraction'>0/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">80% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/10</span>
+        <span class='fraction'>0/11</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -142,7 +142,8 @@
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
 <a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,8 +172,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -181,18 +183,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -240,7 +242,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
 export enum ErrorCode {
-    Error = 0, // General error
+    OK = 0, // Default OK
+    Error = 1, // General Error
     WindowUndefined,
     DocumentUndefined,
     EngineInitialization = 100, // Engine begins
@@ -266,9 +269,9 @@ export enum ErrorCode {
  * @param  {string} data
  * @returns void
  */
-export function Log(data: string): void {
-    const information: string = `${data}`;
-    console.log(information);
+export function <span class="fstat-no" title="function not covered" >Log(data: string, ec: ErrorCode= ErrorCode.OK): void <span class="cstat-no" title="statement not covered" >{</span></span>
+    const information: string<span class="cstat-no" title="statement not covered" > = `${data}`;</span>
+<span class="cstat-no" title="statement not covered" >    console.log(`Code: ${ec} ${information}`);</span>
 }
 /**
  * Error logging to the console. This is when the engine may begin to break or
@@ -277,18 +280,18 @@ export function Log(data: string): void {
  * @param  {string=""} data
  * @returns string
  */
-export function LogError(ec: ErrorCode, data: string = <span class="branch-1 cbranch-no" title="branch not covered" >""): void {</span>
-    const errorString = `Error Code: ${ec} Information: ${data}`;
-    console.error(errorString);
+export function <span class="fstat-no" title="function not covered" >LogError(ec: ErrorCode, data: string = ""): void <span class="cstat-no" title="statement not covered" >{</span></span>
+    const errorString<span class="cstat-no" title="statement not covered" > = `Error Code: ${ec} Information: ${data}`;</span>
+<span class="cstat-no" title="statement not covered" >    console.error(errorString);</span>
 }
 /**
  * Prints infromation to the console for the developer.
  * @param  {string=""} data
  * @returns string
  */
-export function LogInfo(data: string = <span class="branch-1 cbranch-no" title="branch not covered" >""): void {</span>
-    const errorString = `Information: ${data}`;
-    console.info(errorString);
+export function <span class="fstat-no" title="function not covered" >LogInfo(data: string = ""): void <span class="cstat-no" title="statement not covered" >{</span></span>
+    const errorString<span class="cstat-no" title="statement not covered" > = `Information: ${data}`;</span>
+<span class="cstat-no" title="statement not covered" >    console.info(errorString);</span>
 }
 &nbsp;
 /**
@@ -340,7 +343,7 @@ export function LogDebug(data: string): void {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Sep 11 2018 16:55:52 GMT-0700 (Pacific Daylight Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Oct 01 2018 23:35:00 GMT-0700 (Pacific Daylight Time)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

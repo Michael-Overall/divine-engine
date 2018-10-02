@@ -1,6 +1,7 @@
 
 export enum ErrorCode {
-    Error = 0, // General error
+    OK = 0, // Default OK
+    Error = 1, // General Error
     WindowUndefined,
     DocumentUndefined,
     EngineInitialization = 100, // Engine begins
@@ -26,9 +27,9 @@ export enum ErrorCode {
  * @param  {string} data
  * @returns void
  */
-export function Log(data: string): void {
+export function Log(data: string, ec: ErrorCode= ErrorCode.OK): void {
     const information: string = `${data}`;
-    console.log(information);
+    console.log(`Code: ${ec} ${information}`);
 }
 /**
  * Error logging to the console. This is when the engine may begin to break or

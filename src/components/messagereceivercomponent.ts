@@ -1,11 +1,11 @@
-import { Component, EventType, Message, MessageSystem } from "../core";
+import { Component, Engine, EventType, Message } from "../core";
 
 export class MessageReceiverComponent extends Component {
-    constructor(tag: string, private messageSystem: MessageSystem) {
-        super(tag);
-        this.messageSystem = messageSystem;
+    constructor(eventType: EventType, action: (message: Message) => void) {
+        super();
+        Engine.instance!.messageSystem.on(eventType, action); // DEBUG: Hitting before Engine.instance initialized
     }
     public sendMessage(type: EventType | string, message: Message) {
-        this.messageSystem.sendMessage(type, message);
+        Engine.instance!.messageSystem.sendMessage(type, message);
     }
 }
