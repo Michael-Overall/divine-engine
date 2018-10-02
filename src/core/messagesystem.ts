@@ -73,25 +73,15 @@ export enum EventType {
 /**
  * Message object.
  * The data is saved as a JSON object in string format. It will be parsed based
- * on it's message type. Listeners have a specific format based on interface.
+ * on it's message type. Listeners have a specific format based on class.
  */
 export class Message {    
-    public entityID: string = "";
-    /**
-     * List of any objects that will be JSON stringified. They will be stored 
-     * as a string to be parsed out for reading by each system.
-     * 
-     * NOTE: There may be some networking capabilities because of this later.
-     * Something with streams.
-     * @param  {any[]} ...data
-     */
-    constructor(entityID: string) {
-        this.entityID = entityID;
+    // Unique message ID. Parse the current time to a hash.
+    public guid: string;
+
+    constructor() {
+        this.guid = this.createGUID();
     }
-    /**
-     * Returns the data as a JSON string object.
-     * @returns string
-     */
     public get JSONString(): string {
         return JSON.stringify(this);
     }
@@ -102,119 +92,154 @@ export class Message {
     public get JSON(): JSON {
         return JSON.parse(JSON.stringify(this));
     }
+    /**
+     * Unique message ID.
+     */
+    private createGUID(): string {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }  
+        return `${s4() + s4()}-${s4() + s4()}-${s4() + s4()}-${s4() + s4()}`;
+    }
 }
 
 /** 
  * Testing message for empty messages.
  */
 export class TestMessage extends Message {
-    constructor(entityID: string, public data?: string | number) {
-        super(entityID);
+    constructor(public data?: string | number) {
+        super();
         this.data = data;
     }
 }
 
 /**
- * Base message data interface(class).
+ * Base message data class(class).
  * All messages must extend from this class.
  *  
  *  data: is a JSON string object.
  */
 
 /**
- * EntityMessages interface. 
- * All entity messages must extend this interface.
+ * EntityMessages class. 
+ * All entity messages must extend this class.
  */
 export class EntityMessage extends Message {
-    constructor(entityID: string) {
-        super(entityID);
+    constructor() {
+        super();
     }
 }
 
 /**
- * Error system message interface. 
- * All error messages must extend this interface.
+ * Error system message class. 
+ * All error messages must extend this class.
  */
 export class ErrorSystemMessage extends Message {
-    constructor(entityID: string, public errorCode: ErrorCode, public data: string | undefined ) {
-        super(entityID);
+    constructor(public errorCode: ErrorCode, public data: string | undefined ) {
+        super();
         this.errorCode = errorCode;
         this.data = data;
     }
 }
 
 /**
- * IO system message interface. 
+ * IO system message class. 
  * All io messages must extend this class.
  */
 export class IOSystemMessage extends Message {
-    constructor(entityID: string) {
-        super(entityID);
+    constructor() {
+        super();
     }
 }
 
 /**
- * Physics system message interface. 
- * All physics messages must extend this interface.
+ * Physics system message class. 
+ * All physics messages must extend this class.
  */
 export class PhysicsSystemMessage extends Message {
-    constructor(entityID: string) {
-        super(entityID);
+    constructor() {
+        super();
     }
 }
 
 /**
- * Render system message  interface. 
- * All render messages must extend this interface.
+ * Render system message  class. 
+ * All render messages must extend this class.
  */
 export class RenderSystemMessage extends Message {
-    constructor(entityID: string, 
-        public renderableComponent: RenderComponent) {
-        super(entityID);
+    constructor(public renderableComponent: RenderComponent) {
+        super();
         this.renderableComponent = renderableComponent;
     }
 }
 
 /**
- * Sound system message interface. 
- * All sound messages must extend this interface.
+ * Sound system message class. 
+ * All sound messages must extend this class.
  */
 export class SoundSystemMessage extends Message {
-    constructor(entityID: string) {
-        super(entityID);
+    constructor() {
+        super();
     }
 }
 /**             ----------------
  *              END CORE CLASSES
  *              ----------------
  */
-/**
- * Key input message interface.
- */
+
+ /**
+  * Key Codes for keyboard input
+  * 
+  * //REVIEW: This is most likely unnecessary
+  */
+export enum KeyCode {
+    a, b, c, d,
+    e, f, g, h,
+    i, j, k, l,
+    m, n, o, p,
+    q, r, s, t,
+    u, v, w, x,
+    y, z, A, B,
+    C, D, E, F,
+    G, H, I, J,
+    K, L, M, N,
+    O, P, Q, R,
+    S, T, U, V,
+    W, X, Y, Z,
+}
+
+ /**
+  * Key input message class.
+  */
 export class KeyInputMessage extends IOSystemMessage {
-    constructor(entityID: string, public code: string) {
-        super(entityID);
-        this.code = code;
+    
+    /**
+     * @param  {string} entityID 
+     * @param  {string} publiccode
+     */
+    constructor(public keyCode: KeyCode) {
+        super();
+        this.keyCode = keyCode;
     }
 }
 /**
- * Mouse input message interface.
+ * Mouse input message class.
  */
 export class MouseInputMessage extends IOSystemMessage {
-    constructor(entityID: string, public x: number, 
-        public y: number) {
-        super(entityID);
+    constructor(public x: number, public y: number) {
+        super();
         this.x = x;
         this.y = y;
     }
 }
 /**
- * Touch input message interface.
+ * Touch input message class.
  */
 export class TouchInputMessage extends IOSystemMessage {
-    constructor(entityID: string, public x: number, 
-        public y: number) {
-        super(entityID);
+    constructor(public x: number, public y: number) {
+        super();
         this.x = x;
         this. y = y;
     }

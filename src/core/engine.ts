@@ -1,6 +1,6 @@
 import { GameWindow } from "./gamewindow";
 import { ErrorCode } from "./logging";
-import { Log, LogDebug, LogError } from "./logging/errorsystem";
+import { Log, LogError } from "./logging/errorsystem";
 import { MessageSystem } from "./messagesystem";
 
 
@@ -47,23 +47,28 @@ export class Engine {
     private static _running: boolean = false;
     private static _exit: boolean = false;
     private _container: HTMLElement | null = null;
-    private _engineArguments: EngineArguments = new EngineArguments();
-    private _messageSystem: MessageSystem;
     private _client: Client;
+    private _engineArguments: EngineArguments = new EngineArguments();
     private _fps: number = 0;
     private _framesThisSecond: number = 0;
-    private _now: number = 0;
-    private _last: number = 0;
+    private _gameWindow: GameWindow | undefined = undefined;
     private _height: number = 0;
+    private _last: number = 0;
+    private _messageSystem: MessageSystem | undefined = undefined;
+    private _now: number = 0;
     private _startTime: number;
     private _width: number = 0;
-    private _gameWindow: GameWindow | undefined = undefined;
-    public static get instance(): Engine | undefined {
+    /**
+     * Gets instance of engine object.
+     * @returns Engine
+     */
+    public static get instance(): Engine | undfeined {
         if (Engine._instance !== undefined) {
             return Engine._instance;
+        } else {
+            LogError(ErrorCode.EngineInstanceNull, "Engine instance undefined.");
+            throw new Error(ErrorCode.EngineInstanceNull.toString());
         }
-        LogError(ErrorCode.EngineInstanceNull, "Called on get Engine.instance");
-        return undefined; 
     }
     /**
      * Gets the engine's client type.
@@ -126,6 +131,7 @@ export class Engine {
     }
     /**
      * Gets the engines current GameWindow object.
+     * //REVIEW: This should throw an error and exit the game.
      * @returns GameWindow
      */
     public get gameWindow(): GameWindow | undefined {
@@ -133,6 +139,13 @@ export class Engine {
         LogError(ErrorCode.EngineWindowUndefined, 
             "The engine's game window is not defined");
         return undefined;
+    }
+    /**
+     * Gets the message system from the engine instance.
+     * @returns MessageSystem
+     */
+    public get messageSystem(): MessageSystem {
+        return this._messageSystem!;
     }
     /**
      * Initializes an Engine object.
